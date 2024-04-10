@@ -20,7 +20,7 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| user_id            | integer| null: false, foreign_key: true |
+| user    　　　　    | references | null: false, foreign_key: true |
 | itemname           | string | null: false |
 | discription        | text   | null: false |
 | listing_date       | string | null: false |
