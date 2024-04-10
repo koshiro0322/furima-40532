@@ -4,32 +4,35 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| user_id            | string | null: false |
 | username           | string | null: false |
 | email              | string | null: false, unique: true |
-| encrypted_password | string | null: false |
+| password           | string | null: false |
+| regisration_date　  | string | null: false |
 
 ### Association
 
 - has_many :items
 - has_many :purchases
+- has_many :shipping_addresses
 
 
 ## items テーブル
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| item_id            | string | null: false |
-| seller_id          | string | null: false, foreign_key: true |
+| user_id            | integer| null: false, foreign_key: true |
 | itemname           | string | null: false |
-| price              | string | null: false |
-| password           | string | null: false |
-| discription        | string | null: false |
+| discription        | text   | null: false |
+| listing_date       | string | null: false |
+| price              | integer| null: false |
+| category           | integer| null: false |
+
 
 ### Association
 
-- has_many :purchases
+- has_one :purchase
 - belongs_to :user
+- has_many :shipping_addresses
 
 
 
@@ -37,9 +40,9 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| purchase_id        | string | null: false |
-| buyer_id           | string | null: false, foreign_key: true |
-| item_id            | string | null: false |
+| purchase_id        | integer| null: false |
+| user_id            | integer| null: false, foreign_key: true |
+| item_id            |integer | null: false, foreign_key: true |
 | payment_method     | string | null: false |
 
 
@@ -47,4 +50,19 @@
 
 - belongs_to :item
 - belongs_to :user
+- has_one :shipping_adress
+
+## shipping_addressesテーブル
+
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| shipping_address_id| integer| null: false, foreign_key: true |
+| user_id            | integer| null: false, foreign_key: true |
+| item_id            |integer | null: false, foreign_key: true |
+
+
+
+### Association
+
+- belongs_to :purchases
 
