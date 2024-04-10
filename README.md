@@ -4,10 +4,12 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| username           | string | null: false |
+| nickname           | string | null: false |
 | email              | string | null: false, unique: true |
-| password           | string | null: false |
-| regisration_date　  | string | null: false |
+| encrypted_password | string | null: false |
+| full_name          | string | null: false |
+| name_kana          | string | null: false |
+| birthday           |integer | null: false |
 
 ### Association
 
@@ -20,12 +22,11 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| user    　　　　    | references | null: false, foreign_key: true |
+| user    　　　　    |references| null: false, foreign_key: true |
+| image              | text   | null: false |
 | itemname           | string | null: false |
 | discription        | text   | null: false |
-| listing_date       | string | null: false |
 | price              | integer| null: false |
-| category           | integer| null: false |
 
 
 ### Association
@@ -40,10 +41,8 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| purchase_id        | integer| null: false |
-| user_id            | integer| null: false, foreign_key: true |
-| item_id            |integer | null: false, foreign_key: true |
-| payment_method     | string | null: false |
+| user          　　  |references| null: false, foreign_key: true |
+| item         　　   |references| null: false, foreign_key: true |
 
 
 ### Association
@@ -56,13 +55,19 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| shipping_address_id| integer| null: false, foreign_key: true |
-| user_id            | integer| null: false, foreign_key: true |
-| item_id            |integer | null: false, foreign_key: true |
+| purchase           |references|null: false|
+| credit_card_number | integer| null: false |
+| expiration_date    | integer| null: false |
+| security_code      | integer| null: false |
+| postal_code        | integer| null: false |
+| city               | string | null: false |
+| street_address     | string | null: false |
+| building_name      | string |
+| phone_number       | integer| null: false |
 
 
 
 ### Association
 
-- belongs_to :purchases
+- belongs_to :purchase
 
