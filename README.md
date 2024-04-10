@@ -4,32 +4,36 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| user_id            | string | null: false |
-| username           | string | null: false |
+| nickname           | string | null: false |
 | email              | string | null: false, unique: true |
 | encrypted_password | string | null: false |
+| full_name          | string | null: false |
+| name_kana          | string | null: false |
+| birthday           |integer | null: false |
 
 ### Association
 
 - has_many :items
 - has_many :purchases
+- has_many :shipping_addresses
 
 
 ## items テーブル
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| item_id            | string | null: false |
-| seller_id          | string | null: false, foreign_key: true |
+| user    　　　　    |references| null: false, foreign_key: true |
+| image              | text   | null: false |
 | itemname           | string | null: false |
-| price              | string | null: false |
-| password           | string | null: false |
-| discription        | string | null: false |
+| discription        | text   | null: false |
+| price              | integer| null: false |
+
 
 ### Association
 
-- has_many :purchases
+- has_one :purchase
 - belongs_to :user
+- has_many :shipping_addresses
 
 
 
@@ -37,14 +41,33 @@
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| purchase_id        | string | null: false |
-| buyer_id           | string | null: false, foreign_key: true |
-| item_id            | string | null: false |
-| payment_method     | string | null: false |
+| user          　　  |references| null: false, foreign_key: true |
+| item         　　   |references| null: false, foreign_key: true |
 
 
 ### Association
 
 - belongs_to :item
 - belongs_to :user
+- has_one :shipping_adress
+
+## shipping_addressesテーブル
+
+| Column             | Type   | Options     |
+| ------------------ | ------ | ----------- |
+| purchase           |references|null: false|
+| credit_card_number | integer| null: false |
+| expiration_date    | integer| null: false |
+| security_code      | integer| null: false |
+| postal_code        | integer| null: false |
+| city               | string | null: false |
+| street_address     | string | null: false |
+| building_name      | string |
+| phone_number       | integer| null: false |
+
+
+
+### Association
+
+- belongs_to :purchase
 
