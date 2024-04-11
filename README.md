@@ -31,8 +31,8 @@
 | category_id        | integer| null: false |
 | condition_id       | integer| null: false |
 |shipping_fee_responsibility_id| integer| null: false |
-| ship_from_region_id| integer| null: false |
-| shipping_duration_id| integer| null: false |
+| prefecture_id	　　　| integer| null: false |
+|shipping_duration_id| integer| null: false |
 
 
 ### Association
@@ -55,13 +55,13 @@
 
 - belongs_to :item
 - belongs_to :user
-- has_one :shipping_adress
+- has_one :shipping_address
 
 ## shipping_addressesテーブル
 
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
-| purchase           |references|null: false|
+| purchase           |references|null: false, foreign_key: true |
 | postal_code        | string | null: false |
 | prefecture_id      | integer| null: false |
 | city               | string | null: false |
