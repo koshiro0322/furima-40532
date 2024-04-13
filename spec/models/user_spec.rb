@@ -119,6 +119,17 @@ RSpec.describe User, type: :model do
         expect(user).not_to be_valid
         expect(user.errors[:firstname_kana]).to include('はカタカナで入力してください')
       end
+      it 'lastname_kanjiが全角日本語でないと登録できない' do
+        user = build(:user, lastname_kanji: 'Yamada123')
+        user.valid?
+        expect(user.errors[:lastname_kanji]).to include('は全角文字で入力してください')
+      end
+
+      it 'firstname_kanjiが全角日本語でないと登録できない' do
+        user = build(:user, firstname_kanji: 'Taro123')
+        user.valid?
+        expect(user.errors[:firstname_kanji]).to include('は全角文字で入力してください')
+      end
     end
   end
 end
