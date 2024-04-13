@@ -37,7 +37,7 @@ RSpec.describe User, type: :model do
       end
 
       it '重複したemailが存在する場合は登録できない' do
-        @user.save!
+        @user.save
         another_user = FactoryBot.build(:user, email: @user.email)
         another_user.valid?
         expect(another_user.errors.full_messages).to include('Email has already been taken')
@@ -90,45 +90,45 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Birthday can't be blank")
       end
       it '英字のみのパスワードでは登録できない' do
-        user = build(:user, password: 'abcdefghij', password_confirmation: 'abcdefghij')
-        user.valid?
-        expect(user).not_to be_valid
-        expect(user.errors[:password]).to include('は半角英数混合で入力してください')
+        @user = build(:user, password: 'abcdefghij', password_confirmation: 'abcdefghij')
+        @user.valid?
+        expect(@user).not_to be_valid
+        expect(@user.errors[:password]).to include('は半角英数混合で入力してください')
       end
 
       it '数字のみのパスワードでは登録できない' do
-        user = build(:user, password: '1234567890')
-        expect(user).not_to be_valid
-        expect(user.errors[:password]).to include('は半角英数混合で入力してください')
+        @user = build(:user, password: '1234567890')
+        expect(@user).not_to be_valid
+        expect(@user.errors[:password]).to include('は半角英数混合で入力してください')
       end
 
       it '全角文字を含むパスワードでは登録できない' do
-        user = build(:user, password: 'abc123あいう')
-        expect(user).not_to be_valid
-        expect(user.errors[:password]).to include('は半角英数混合で入力してください')
+        @user = build(:user, password: 'abc123あいう')
+        expect(@user).not_to be_valid
+        expect(@user.errors[:password]).to include('は半角英数混合で入力してください')
       end
 
       it '姓（全角）に半角文字が含まれていると登録できない' do
-        user = build(:user, lastname_kana: '山田taro')
-        expect(user).not_to be_valid
-        expect(user.errors[:lastname_kana]).to include('はカタカナで入力してください')
+        @user = build(:user, lastname_kana: '山田taro')
+        expect(@user).not_to be_valid
+        expect(@user.errors[:lastname_kana]).to include('はカタカナで入力してください')
       end
 
       it '名（全角）に半角文字が含まれていると登録できない' do
-        user = build(:user, firstname_kana: '太郎hanako')
-        expect(user).not_to be_valid
-        expect(user.errors[:firstname_kana]).to include('はカタカナで入力してください')
+        @user = build(:user, firstname_kana: '太郎hanako')
+        expect(@user).not_to be_valid
+        expect(@user.errors[:firstname_kana]).to include('はカタカナで入力してください')
       end
       it 'lastname_kanjiが全角日本語でないと登録できない' do
-        user = build(:user, lastname_kanji: 'Yamada123')
-        user.valid?
-        expect(user.errors[:lastname_kanji]).to include('は全角文字で入力してください')
+        @user = build(:user, lastname_kanji: 'Yamada123')
+        @user.valid?
+        expect(@user.errors[:lastname_kanji]).to include('は全角文字で入力してください')
       end
 
       it 'firstname_kanjiが全角日本語でないと登録できない' do
-        user = build(:user, firstname_kanji: 'Taro123')
-        user.valid?
-        expect(user.errors[:firstname_kanji]).to include('は全角文字で入力してください')
+        @user = build(:user, firstname_kanji: 'Taro123')
+        @user.valid?
+        expect(@user.errors[:firstname_kanji]).to include('は全角文字で入力してください')
       end
     end
   end
