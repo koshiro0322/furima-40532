@@ -83,5 +83,35 @@ RSpec.describe Item, type: :model do
       @item.valid?
       expect(@item.errors[:shipping_duration_id]).to include("can't be blank")
     end
+    it '商品画像が空では出品できない' do
+      # @item = build(:item, image: nil)
+      @item.image.detach
+      @item.valid?
+      expect(@item.errors[:image]).to include("can't be blank")
+    end
+
+    it '価格に半角数字以外が含まれている場合は出品できない' do
+      @item = build(:item, price: Faker::Lorem.characters(number: 5))
+      @item.valid?
+      expect(@item.errors[:price]).to include('is not a number')
+    end
+
+    it '価格が300円未満では出品できない' do
+      @item = build(:item, price: Faker::Number.between(from: 1, to: 299))
+      @item.valid?
+      expect(@item.errors[:price]).to include('must be greater than or equal to 300')
+    end
+
+    it '価格が9,999,999円を超えると出品できない' do
+      @item = build(:item, price: Faker::Number.between(from: 10_000_000, to: 20_000_000))
+      @item.valid?
+      expect(@item.errors[:price]).to include('must be less than or equal to 9999999')
+    end
+
+    it 'userが紐付いていなければ出品できない' do
+      @item = build(:item, user: nil)
+      @item.valid?
+      expect(@item.errors[:user]).to include('must exist')
+    end
   end
 end
