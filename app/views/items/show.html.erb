@@ -10,11 +10,11 @@
       <%= image_tag @item.image ,class:"item-box-img" %>
       <%# 商品が売れている場合は、sold outを表示しましょう %>
       
-      <% if @item.purchase.present? %>
+      <%# if @item.purchase.present? %>
       <div class="sold-out">
         <span>Sold Out!!</span>
       </div>
-      <% end %>
+      <%#end %>
 
       <%# //商品が売れている場合は、sold outを表示しましょう %>
     </div>
@@ -28,9 +28,9 @@
     </div>
 
     <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
-    <% if user_signed_in? && @item.purchase.present? %>
+    <% if user_signed_in? #&& @item.purchase.present? %>
 
-      <% if current_user.id == item.user_id %>
+      <% if current_user.id == @item.user_id %>
       <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
       <p class="or-text">or</p>
       <%= link_to "削除", "#", data: {turbo_method: :delete}, class:"item-destroy" %>
@@ -53,7 +53,7 @@
       <tbody>
         <tr>
           <th class="detail-item">出品者</th>
-          <td class="detail-value"><%= "#{@item.user.lastname_kanji} #{@item.user.firstname_kanji}" %></td>
+          <td class="detail-value"><%= @item.user.nickname%></td>
         </tr>
         <tr>
           <th class="detail-item">カテゴリー</th>
