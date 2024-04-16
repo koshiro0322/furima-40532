@@ -1,5 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_unless_owner, only: [:edit, :update]
   def index
     @items = Item.all.order('created_at DESC')
   end
@@ -40,6 +42,14 @@ class ItemsController < ApplicationController
   end
 
   private
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  def redirect_unless_owner
+    redirect_to root_path unless @item.user == current_user
+  end
 
   def item_params
     params.require(:item).permit(:image, :itemname, :description, :price, :category_id, :condition_id,
