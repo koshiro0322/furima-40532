@@ -40,6 +40,6 @@ class PurchasesController < ApplicationController
 
   def redirect_unless_owner
     @item = Item.find(params[:item_id])
-    redirect_to root_path unless @item.user && @item.purchase.blank?
+    redirect_to root_path unless @item.user == current_user && @item.purchase.blank?
   end
 end
