@@ -1,4 +1,6 @@
 class PurchasesController < ApplicationController
+  before_action :redirect_unless_owner, only: [:index]
+
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @item = Item.find(params[:item_id])
@@ -34,5 +36,10 @@ class PurchasesController < ApplicationController
       card: purchase_params[:token],
       currency: 'jpy'
     )
+  end
+
+  def redirect_unless_owner
+    @item = Item.find(params[:item_id])
+    redirect_to root_path unless @item.user && @item.purchase.blank?
   end
 end

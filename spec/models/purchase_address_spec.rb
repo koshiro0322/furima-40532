@@ -9,10 +9,6 @@ RSpec.describe PurchaseAddress, type: :model do
     it '必要な情報がすべて存在すれば登録できる' do
       expect(@purchase_address).to be_valid
     end
-    it 'prefecture_idが1でも保存できる' do
-      @purchase_address.prefecture_id = 1
-      expect(@purchase_address).to be_valid
-    end
   end
   context '新規登録できないとき' do
   end
@@ -67,5 +63,16 @@ RSpec.describe PurchaseAddress, type: :model do
     @purchase_address.phone_number = '090-1234-5678'
     @purchase_address.valid?
     expect(@purchase_address.errors[:phone_number]).to include('は半角数字のみ入力してください')
+  end
+  it 'prefecture_idが空では登録できない' do
+    @purchase_address.prefecture_id = ''
+    @purchase_address.valid?
+    expect(@purchase_address.errors[:prefecture_id]).to include("can't be blank")
+  end
+
+  it 'prefecture_idが1の場合は無効である' do
+    @purchase_address.prefecture_id = 1
+    @purchase_address.valid?
+    expect(@purchase_address.errors[:prefecture_id]).to include("can't be blank")
   end
 end
