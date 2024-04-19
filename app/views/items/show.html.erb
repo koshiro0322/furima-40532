@@ -10,11 +10,11 @@
       <%= image_tag @item.image ,class:"item-box-img" %>
     
       
-      <%# if @item.purchase.present? %>
+      <% if @item.purchase.present? %>
       <div class="sold-out">
         <span>Sold Out!!</span>
       </div>
-      <%#end %>
+      <%end %>
 
     
     </div>
@@ -28,7 +28,7 @@
     </div>
 
    
-    <% if user_signed_in? #&& @item.purchase.present? %>
+    <% if user_signed_in? &&  @item.purchase.blank? %>
 
       <% if current_user.id == @item.user_id %>
         <%= link_to "商品の編集", edit_item_path(@item), method: :get, class: "item-red-btn" %>
@@ -37,7 +37,7 @@
       <% else %>
 
       
-      <%= link_to "購入画面に進む",   item_purchases_path(@item), data: { turbo: false }, class:"item-red-btn"%>
+      <%= link_to "購入画面に進む",   item_purchases_path(@item.id), data: { turbo: false }, class:"item-red-btn"%>
 
       <% end %>
 
