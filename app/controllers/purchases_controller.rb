@@ -1,9 +1,9 @@
 class PurchasesController < ApplicationController
+  before_action :authenticate_user!, only: [:index]
   before_action :redirect_unless_owner, only: [:index]
-
   def index
     gon.public_key = ENV['PAYJP_PUBLIC_KEY']
-    @item = Item.find(params[:item_id])
+    set_item_id
     @purchase_address = PurchaseAddress.new
   end
 
@@ -15,7 +15,7 @@ class PurchasesController < ApplicationController
       redirect_to root_path
     else
       gon.public_key = ENV['PAYJP_PUBLIC_KEY']
-      @item = Item.find(params[:item_id])
+      set_item_id
       render :index, status: :unprocessable_entity
     end
   end
@@ -28,8 +28,7 @@ class PurchasesController < ApplicationController
   end
 
   def pay_item
-    @item = Item.find(params[:item_id])
-
+    set_item_id
     Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: @item.price,
@@ -39,7 +38,13 @@ class PurchasesController < ApplicationController
   end
 
   def redirect_unless_owner
-    @item = Item.find(params[:item_id])
-    redirect_to root_path unless @item.user == current_user && @item.purchase.blank?
+    set_item_id
+    return unless @item.user
+
+    redirect_to root_path unless user_signed_in? && @item.purchase.blank?
   end
+end
+
+def set_item_id
+  @item = Item.find(params[:item_id])
 end
