@@ -128,18 +128,18 @@
     </div>
     <ul class='item-lists'>
 
-      <%# if @items.present? %>
+      <% if @items.present? %>
       <% @items.each do |item| %>
       <li class='list'>
         <%= link_to item_path(item.id) do %>
         <div class='item-img-content'>
         <%= image_tag item.image, class: "item-img" if item.image.attached? %>
-          <%# if item.purchase.present? %>
+          <% if item.purchase.present? %>
 
           <div class='sold-out'>
             <span>Sold Out!!</span>
           </div>
-          <%# end %>
+          <% end %>
 
         </div>
         <div class='item-info'>
@@ -158,7 +158,7 @@
       </li>
       <% end %>
      
-      <%#else %>
+      <%else %>
 
       <li class='list'>
         <%= link_to '#' do %>
@@ -177,7 +177,7 @@
         </div>
         <% end %>
       </li>
-      <%# end %>
+      <% end %>
 
      
     </ul>

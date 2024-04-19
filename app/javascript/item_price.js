@@ -1,3 +1,5 @@
+
+const payment = () => {
 const priceInput = document.getElementById("item-price");
 const addTaxDom = document.getElementById("add-tax-price");
 const profitDom = document.getElementById("profit");
@@ -13,3 +15,8 @@ const profitDom = document.getElementById("profit");
     addTaxDom.innerHTML = salesTax;
     profitDom.innerHTML = profit; 
 });
+};
+
+
+window.addEventListener("turbo:load", payment);
+window.addEventListener("turbo:render", payment);
