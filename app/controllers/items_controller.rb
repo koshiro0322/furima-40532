@@ -46,7 +46,7 @@ class ItemsController < ApplicationController
   end
 
   def redirect_unless_owner
-    redirect_to root_path unless @item.user && @item.purchase.blank?
+    redirect_to root_path unless @item.user == current_user && @item.purchase.blank?
   end
 
   def item_params
